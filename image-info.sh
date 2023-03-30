@@ -207,12 +207,21 @@ imgtime=$(echo "$res" |jq -c .[].Created --raw-output);
 [[ -z "$imgtime" ]] && imgtime=$(echo "$res" |jq -c .created --raw-output)
 
 timetime=$(date -u -d "$imgtime")
-imgsize=$(echo "$res" |jq -c .[].Size --raw-output)
-[[ -z "$imgsize" ]] && imgtime=$(echo "$res" |jq -c .size --raw-output)
+echo "$REGISTRY_ADDRESS"|grep -q docker.io || { 
+                                               imgsize=$(echo "$res" |jq -c .[].Size --raw-output)
+                                               [[ "$imgsize" = "0" ]] || size="Size:"$(bytesToHumanReadable "$imgsize") ; } ; ## end not dockerhub
+echo "$REGISTRY_ADDRESS"|grep -q docker.io && {
+curl -s https://hub.docker.com/v2/repositories/$image_name/tags/ |         jq '.results[] | select(.name=="'$tag'") | .images[] | {architecture: .architecture, size: .size}'|jq -c .|while read line ;do 
+               size=$(echo "$line"|jq .size --raw-output);
+               [[ -z "$size" ]] ||  ( arch=$(echo "$line"|jq .architecture --raw-output);echo "$arch : "$size ) ;
+done ; } ; ## end dockerhub
+
+#curl -s https://hub.docker.com/v2/repositories/library/alpine/tags/ | \
+#        jq '.results[] | select(.name=="latest") | .images[] | {architecture: .architecture, size: .size}
+
+
 
 [[ "$size" = "" ]] && size="0"
-
-[[ "$size" = "0" ]] || size="Size:"$(bytesToHumanReadable "$imgsize")
 [[ "$size" = "0" ]] && size=""
 
 
