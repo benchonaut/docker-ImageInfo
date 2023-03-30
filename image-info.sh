@@ -55,7 +55,7 @@ get_docker_image_json_config() {
   echo "$REGISTRY_ADDRESS"|grep -q docker.io && token=$(get_dockerhub_token $image)
   echo "$REGISTRY_ADDRESS"|grep -q docker.io && local digest=$(get_dockerhub_digest $image $tag $token)
   echo "$REGISTRY_ADDRESS"|grep -q docker.io || get_image_configuration $image $digest
-  echo "$REGISTRY_ADDRESS"|grep -q docker.io || get_dockerhub_image_configuration $image $token $digest
+  echo "$REGISTRY_ADDRESS"|grep -q docker.io && get_dockerhub_image_configuration $image $token $digest
 }
 
 get_dockerhub_digest() {
