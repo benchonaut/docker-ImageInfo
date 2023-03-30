@@ -10,6 +10,8 @@ echo -n $image_name|tr -cd '/'|wc -c|grep ^0$ && image_name=library/$image_name
 echo -n $image_name|tr -cd '/'|wc -c|grep ^1$ && image_name=docker.io/$image_name
 
 REGISTRY_ADDRESS=$(echo "$image_name"|cut -d"/" -f1)
+echo "$REGISTRY_ADDRESS"  |grep -q "docker.io" && REGISTRY_ADDRESS=registry-1.docker.io
+
 echo "using reg $REGISTRY_ADDRESS FOR $image_name TAG $tag" >&2
 [[ -z "$USE_PROXY" ]] && REGURL="https://${REGISTRY_ADDRESS}"
 [[ -z "$USE_PROXY" ]] || REGURL="${USE_PROXY}/${REGISTRY_ADDRESS}"
@@ -49,11 +51,62 @@ get_docker_image_json_config() {
 
   local image=$1
   local tag=$2
-  local digest=$(get_digest $image $tag)
-
-  get_image_configuration $image $digest
+  echo "$REGISTRY_ADDRESS"|grep -q docker.io || local digest=$(get_digest $image $tag)
+  echo "$REGISTRY_ADDRESS"|grep -q docker.io && token=$(get_dockerhub_token $image)
+  echo "$REGISTRY_ADDRESS"|grep -q docker.io && local digest=$(get_dockerhub_digest $image $tag $token)
+  echo "$REGISTRY_ADDRESS"|grep -q docker.io || get_image_configuration $image $digest
+  echo "$REGISTRY_ADDRESS"|grep -q docker.io || get_dockerhub_image_configuration $image $token $digest
 }
 
+get_dockerhub_digest() {
+  local image=$1
+  local tag=$2
+  local token=$3
+
+  echo "Retrieving image digest.
+    IMAGE:  $image
+    TAG:    $tag
+    TOKEN:  $token
+  " >&2
+
+  curl \
+    --silent \
+    --header "Accept: application/vnd.docker.distribution.manifest.v2+json" \
+    --header "Authorization: Bearer $token" \
+    "https://registry-1.docker.io/v2/$image/manifests/$tag" \
+    | jq -r '.config.digest'
+}
+get_dockerhub_image_configuration() {
+  local image=$1
+  local token=$2
+  local digest=$3
+
+  echo "Retrieving Image Configuration.
+    IMAGE:  $image
+    TOKEN:  $token
+    DIGEST: $digest
+  " >&2
+
+  curl \
+    --silent \
+    --location \
+    --header "Authorization: Bearer $token" \
+    "https://registry-1.docker.io/v2/$image/blobs/$digest" \
+    | jq -r '.container_config'
+}
+
+get_dockerhub_token() {
+  local image=$1
+
+  echo "Retrieving Docker Hub token.
+    IMAGE: $image
+  " >&2
+
+  curl \
+    --silent \
+    "https://auth.docker.io/token?scope=repository:$image:pull&service=registry.docker.io" \
+    | jq -r '.token'
+}
 
 # Makes sure that we provided (from the cli) 
 # enough arguments.
