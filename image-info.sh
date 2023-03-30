@@ -24,11 +24,12 @@ layersraw=$(docker history $1 2>&1 )
 did_we_pull=no
 echo "$layersraw"|grep "Error response from daemon: No such image" -q && { did_we_pull=yes;docker pull $image_name  &>/dev/shm/.autopull_out ; } ;
 
+#size=`docker images $1 | tail -n +2 | awk '{print$(NF-1)"_"$NF}'`
+res=$(  docker image inspect "$image_name" );
 #layers=$(echo "$layersraw"| tail -n +2 | wc -l)
 layers=$(echo "$res" | jq '.[].RootFS.Layers'|jq length)
 [[ -z "$layers" ]] && layers=0
-#size=`docker images $1 | tail -n +2 | awk '{print$(NF-1)"_"$NF}'`
-res=$(  docker image inspect "$image_name" );
+
 imgtime=$(echo "$res" |jq -c .[].Created --raw-output);
 timetime=$(date -u -d "$imgtime")
 imgsize=$(echo "$res" |jq -c .[].Size --raw-output)
