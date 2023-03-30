@@ -43,5 +43,5 @@ if [ "${#layers}" -ne "1" ]
 fi
 
 echo "$did_we_pull"|grep yes -q && docker rmi $image_name &>/dev/null
-echo '|' $image_name '| ![ '$info' ]('"$SHIELDS_SERVER"'/badge/Image:'$image_name-${info}'-blue.svg?style=flat-square)  | '
+echo '|' $image_name '| ![ '$info' ]('"$SHIELDS_SERVER"'/badge/Image:'$image_name-${info}'-blue.svg?style=flat-square)  |'
 #echo "$SHIELDS_SERVER"/badge/Image:$image_name-${info}-blue.svg?style=flat-square
