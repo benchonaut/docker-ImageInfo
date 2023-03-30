@@ -200,11 +200,16 @@ fi
 res=$(get_docker_image_json_config $image_name $tag )
 #layers=$(echo "$layersraw"| tail -n +2 | wc -l)
 layers=$(echo "$res" | jq '.[].RootFS.Layers'|jq length)
+[[ -z "$layers" ]] && layers=$(echo "$res" |jq .rootfs.diff_ids)
 [[ -z "$layers" ]] && layers=0
 
 imgtime=$(echo "$res" |jq -c .[].Created --raw-output);
+[[ -z "$imgtime" ]] && imgtime=$(echo "$res" |jq -c .created --raw-output)
+
 timetime=$(date -u -d "$imgtime")
 imgsize=$(echo "$res" |jq -c .[].Size --raw-output)
+[[ -z "$imgsize" ]] && imgtime=$(echo "$res" |jq -c .size --raw-output)
+
 size=$(bytesToHumanReadable "$imgsize")
 
 if [ "${#layers}" -ne "1" ]
