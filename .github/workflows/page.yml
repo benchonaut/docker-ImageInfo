@@ -1,4 +1,3 @@
-image: alpine
 name: Build and Deploy
 on: [push]
 permissions:
@@ -6,6 +5,7 @@ permissions:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    image: alpine
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v3
@@ -14,7 +14,7 @@ jobs:
         run: |
           uptime
           mkdir public
-          pip3 install --user markdown
+          apk add py3-pip && pip3 install --user markdown
           cat README.md >> tmp.md
           echo "" >> tmp.md
           echo "##Examples " >> tmp.md
