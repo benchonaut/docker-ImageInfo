@@ -24,6 +24,7 @@ REGISTRY_ADDRESS="$REGURL"
 echo "$image_name"|grep -q ":" || image_name=$image_name":latest"
 echo "$image_name"|grep -q ":" && tag=${image_name/*:/}
 echo "$image_name"|grep -q ":" && image_name=${image_name/:*/}
+(echo "$image_name" |grep -q docker.io )&& ( echo "$REGISTRY_ADDRESS"|grep -q docker.io ) && image_name=${image_name/docker.io\//}
 
 echo "using reg $REGISTRY_ADDRESS FOR $image_name TAG $tag" >&2
 # Address of the registry that we'll be 
