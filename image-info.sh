@@ -16,7 +16,7 @@ REGISTRY_ADDRESS=$(echo "$image_name"|cut -d"/" -f1)
 
 #[[ -z "$USE_PROXY" ]] && REGISTRY_ADDRESS="${REGISTRY_ADDRESS:-http://localhost:5000}"
 REGISTRY_ADDRESS="$REGURL"
-echo "using reg $REGISTRY_ADDRESS" >&2
+
 
 
 
@@ -25,7 +25,7 @@ echo "$image_name"|grep -q ":" || image_name=$img_name":latest"
 echo "$image_name"|grep -q ":" && tag=${image_name/*:/}
 echo "$image_name"|grep -q ":" && image_name=${image_name/:*/}
 
-
+echo "using reg $REGISTRY_ADDRESS FOR $image_name TAG $tag" >&2
 # Address of the registry that we'll be 
 # performing the inspections against.
 # This is necessary as the arguments we
