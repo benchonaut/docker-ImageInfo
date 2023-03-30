@@ -5,9 +5,9 @@
 
 image_name=$1
 ## catch single image name
-echo -n $image_name|tr -cd '/'|wc -c|grep ^0$ && image_name=library/$image_name
+echo -n $image_name|tr -cd '/'|wc -c|grep ^0$ -q && image_name=library/$image_name
 ## catch no-reg image name (docker hub)
-echo -n $image_name|tr -cd '/'|wc -c|grep ^1$ && image_name=docker.io/$image_name
+echo -n $image_name|tr -cd '/'|wc -c|grep ^1$ -q  && image_name=docker.io/$image_name
 
 REGISTRY_ADDRESS=$(echo "$image_name"|cut -d"/" -f1)
 echo "$REGISTRY_ADDRESS"  |grep -q "docker.io" && REGISTRY_ADDRESS=registry-1.docker.io
