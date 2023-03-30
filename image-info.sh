@@ -211,10 +211,13 @@ echo "$REGISTRY_ADDRESS"|grep -q docker.io || {
                                                imgsize=$(echo "$res" |jq -c .[].Size --raw-output)
                                                [[ "$imgsize" = "0" ]] || size="Size:"$(bytesToHumanReadable "$imgsize") ; } ; ## end not dockerhub
 echo "$REGISTRY_ADDRESS"|grep -q docker.io && {
-curl -s https://hub.docker.com/v2/repositories/$image_name/tags/ |         jq '.results[] | select(.name=="'$tag'") | .images[] | {architecture: .architecture, size: .size}'|jq -c .|while read line ;do 
-               size=$(echo "$line"|jq .size --raw-output);
-               [[ -z "$size" ]] ||  ( arch=$(echo "$line"|jq .architecture --raw-output);echo "$arch : "$size ) ;
-done ; } ; ## end dockerhub
+size=$(
+   echo "Size: ";
+   curl -s https://hub.docker.com/v2/repositories/$image_name/tags/ |         jq '.results[] | select(.name=="'$tag'") | .images[] | {architecture: .architecture, size: .size}'|jq -c .|while read line ;do 
+               imgsize=$(echo "$line"|jq .size --raw-output);
+               [[ -z "$imgsize" ]] ||  ( arch=$(echo "$line"|jq .architecture --raw-output);echo "$arch : "$(bytesToHumanReadable "$imgsize")  ) ;
+done )
+echo -n ; } ; ## end dockerhub
 
 #curl -s https://hub.docker.com/v2/repositories/library/alpine/tags/ | \
 #        jq '.results[] | select(.name=="latest") | .images[] | {architecture: .architecture, size: .size}
