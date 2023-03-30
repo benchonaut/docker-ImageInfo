@@ -215,8 +215,8 @@ size=$(
    echo "Size: ";
    curl -s https://hub.docker.com/v2/repositories/$image_name/tags/ |         jq '.results[] | select(.name=="'$tag'") | .images[] | {architecture: .architecture, size: .size}'|jq -c .|while read line ;do 
                imgsize=$(echo "$line"|jq .size --raw-output);
-               [[ -z "$imgsize" ]] ||  ( arch=$(echo "$line"|jq .architecture --raw-output);echo "$arch : "$(bytesToHumanReadable "$imgsize")  ) ;
-done )
+               [[ -z "$imgsize" ]] ||  ( arch=$(echo "$line"|jq .architecture --raw-output);echo " $arch : "$(bytesToHumanReadable "$imgsize")" |"  ) ;
+done |tr -d '\n'|sed 's/|$//g')
 echo -n ; } ; ## end dockerhub
 
 #curl -s https://hub.docker.com/v2/repositories/library/alpine/tags/ | \
