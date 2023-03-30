@@ -21,7 +21,7 @@ REGISTRY_ADDRESS="$REGURL"
 
 
 
-echo "$image_name"|grep -q ":" || image_name=$img_name":latest"
+echo "$image_name"|grep -q ":" || image_name=$image_name":latest"
 echo "$image_name"|grep -q ":" && tag=${image_name/*:/}
 echo "$image_name"|grep -q ":" && image_name=${image_name/:*/}
 
