@@ -22,7 +22,7 @@ image_name=$1
 
 layersraw=$(docker history $1 2>&1 )
 did_we_pull=no
-echo "$layersraw"|grep "Error response from daemon: No such image" -q && { did_we_pull=yes;docker pull $image_name  ; } ;
+echo "$layersraw"|grep "Error response from daemon: No such image" -q && { did_we_pull=yes;docker pull $image_name  &>/dev/shm/.autopull_out ; } ;
 
 #layers=$(echo "$layersraw"| tail -n +2 | wc -l)
 layers=$(echo "$res" | jq '.[].RootFS.Layers'|jq length)
