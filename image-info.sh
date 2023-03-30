@@ -210,7 +210,11 @@ timetime=$(date -u -d "$imgtime")
 imgsize=$(echo "$res" |jq -c .[].Size --raw-output)
 [[ -z "$imgsize" ]] && imgtime=$(echo "$res" |jq -c .size --raw-output)
 
-size=$(bytesToHumanReadable "$imgsize")
+[[ "$size" = "" ]] && size="0"
+
+[[ "$size" = "0" ]] || size="Size:"$(bytesToHumanReadable "$imgsize")
+[[ "$size" = "0" ]] && size=""
+
 
 if [ "${#layers}" -ne "1" ]
   then
