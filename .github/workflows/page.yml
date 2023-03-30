@@ -43,11 +43,11 @@ jobs:
           echo "" >> tmp.md
           echo "##Examples " >> tmp.md
           echo "" >> tmp.md
-          echo "| Image | Status |" >> tmp.md
-          echo "|--|--|" >> tmp.md
-          bash image-info.sh library/alpine >> tmp.md
-          bash image-info.sh library/ubuntu >> tmp.md
-          bash image-info.sh library/nginx  >> tmp.md
+          (echo "| Image | Status |"
+          echo "|--|--|" 
+          bash image-info.sh library/alpine
+          bash image-info.sh library/ubuntu 
+          bash image-info.sh library/nginx  )|sed 's/|$/| <br>/g' >> tmp.md 
           echo "" >> tmp.md
           cat tmp.md
           #python3 -m markdown tmp.md > public/index.html
