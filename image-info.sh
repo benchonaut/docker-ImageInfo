@@ -63,7 +63,7 @@ get_dockerhub_digest() {
   local tag=$2
   local token=$3
 
-  echo "Retrieving image digest.
+  echo "Retrieving DOCKERHUB image digest.
     IMAGE:  $image
     TAG:    $tag
     TOKEN:  $token
@@ -81,7 +81,7 @@ get_dockerhub_image_configuration() {
   local token=$2
   local digest=$3
 
-  echo "Retrieving Image Configuration.
+  echo "Retrieving DOCKERHUB Image Configuration.
     IMAGE:  $image
     TOKEN:  $token
     DIGEST: $digest
