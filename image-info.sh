@@ -28,7 +28,7 @@ echo "$layersraw"|grep "Error response from daemon: No such image" -q && { did_w
 layers=$(echo "$res" | jq '.[].RootFS.Layers'|jq length)
 [[ -z "$layers" ]] && layers=0
 #size=`docker images $1 | tail -n +2 | awk '{print$(NF-1)"_"$NF}'`
-res=$(sudo  docker image inspect jpillora/chisel );
+res=$(  docker image inspect "$image_name" );
 imgtime=$(echo "$res" |jq -c .[].Created --raw-output);
 timetime=$(date -u -d "$imgtime")
 imgsize=$(echo "$res" |jq -c .[].Size --raw-output)

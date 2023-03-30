@@ -24,7 +24,7 @@ jobs:
           bash image-info.sh library/ubuntu >> tmp.md
           bash image-info.sh library/nginx  >> tmp.md
           echo "" >> tmp.md
-          python3 -m markdown readme.md > public/index.html
+          python3 -m markdown tmp.md > public/index.html
           cp public/index.html public/404.html
 
       - name: Deploy 🚀
