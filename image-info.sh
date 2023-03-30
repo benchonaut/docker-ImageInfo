@@ -79,7 +79,7 @@ get_digest() {
   local image=$1
   local tag=$2
 
-  echo "Retrieving image digest.
+  echo "Retrieving image digest FROM $REGISTRY_ADDRESS/v2/$image/manifests/$tag
     IMAGE:  $image
     TAG:    $tag
   " >&2
@@ -100,7 +100,7 @@ get_image_configuration() {
   local image=$1
   local digest=$2
 
-  echo "Retrieving Image Configuration.
+  echo "Retrieving Image Configuration FROM $REGISTRY_ADDRESS/v2/$image/blobs/$digest
     IMAGE:  $image
     DIGEST: $digest
   " >&2
