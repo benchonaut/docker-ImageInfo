@@ -28,6 +28,7 @@ echo "$image_name"|grep -q ":" && tag=${image_name/*:/}
 echo "$image_name"|grep -q ":" && image_name=${image_name/:*/}
 (echo "$image_name" |grep -q docker.io )&& ( echo "$REGISTRY_ADDRESS"|grep -q docker.io ) && image_name=${image_name/docker.io\//}
 (echo "$image_name" |grep -q quay.io )&& ( echo "$REGISTRY_ADDRESS"|grep -q quay.io ) && image_name=${image_name/quay.io\//}
+(echo "$image_name" |grep -q ghcr.io )&& ( echo "$REGISTRY_ADDRESS"|grep -q ghcr.io ) && image_name=${image_name/quay.io\//}
 
 echo "using reg $REGISTRY_ADDRESS FOR $image_name TAG $tag" >&2
 # Address of the registry that we'll be 
@@ -236,6 +237,10 @@ if [ "${#layers}" -ne "1" ]
     info="_${size// /_}/${layers}_Layer_/created:_${timetime// /_}"
 fi
 
-echo "$did_we_pull"|grep yes -q && docker rmi $image_name &>/dev/null
-echo '|' $image_name '| ![ '$info' ]('"$SHIELDS_SERVER"'/badge/Image:'$image_name-${info}'-blue.svg?style=flat-square)  |'
+
+#echo "$did_we_pull"|grep yes -q && docker rmi $image_name &>/dev/null
+echo -n "$REGISTRY_ADDRESS" |grep -q ghcr.io || ( echo '|' $image_name '| ![ '$info' ]('"$SHIELDS_SERVER"'/badge/Image:'$image_name-${info}'-blue.svg?style=flat-square)  |')
+echo -n "$REGISTRY_ADDRESS" |grep -q ghcr.io && (
+#echo '| '$image_name'| [![Image Size for '$image_name']('asdads')| '
+)
 #echo "$SHIELDS_SERVER"/badge/Image:$image_name-${info}-blue.svg?style=flat-square
