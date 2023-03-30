@@ -38,7 +38,7 @@ jobs:
         run: |
           uptime
           mkdir public
-          pip3 install --user markdown
+          pip3 install --user markdown2
           cat README.md >> tmp.md
           echo "" >> tmp.md
           echo "##Examples " >> tmp.md
@@ -50,7 +50,8 @@ jobs:
           bash image-info.sh library/nginx  >> tmp.md
           echo "" >> tmp.md
           cat tmp.md
-          python3 -m markdown tmp.md > public/index.html
+          #python3 -m markdown tmp.md > public/index.html
+          python3 -m markdown2 tmp.md > public/index.html
           cp public/index.html public/404.html
       - name: Setup Pages
         uses: actions/configure-pages@v3
