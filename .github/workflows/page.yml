@@ -43,7 +43,7 @@ jobs:
           echo "" >> tmp.md
           echo "##Examples " >> tmp.md
           echo "" >> tmp.md
-          echo "| Image | Status |" >> tmp.mkdir
+          echo "| Image | Status |" >> tmp.md
           echo "|--|--|" >> tmp.md
           bash image-info.sh library/alpine >> tmp.md
           bash image-info.sh library/ubuntu >> tmp.md
