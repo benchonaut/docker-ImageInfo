@@ -92,7 +92,7 @@ get_dockerhub_image_configuration() {
     --location \
     --header "Authorization: Bearer $token" \
     "https://registry-1.docker.io/v2/$image/blobs/$digest" )
-   echo "$myres" | jq -r '.container_config' || echo "$myres"
+   echo "$myres" | jq -r '.container_config' || echo "$myres" >&2 
 }
 
 get_dockerhub_token() {
