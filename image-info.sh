@@ -1,6 +1,6 @@
 #!/bin/bash
 
-[[ -z "SHIELDS_SERVER" ]] && SHIELDS_SERVER=
+[[ -z "SHIELDS_SERVER" ]] && SHIELDS_SERVER=https://img.shields.io
 # Converts bytes value to human-readable string [$1: bytes value] #https://unix.stackexchange.com/questions/44040/a-standard-tool-to-convert-a-byte-count-into-human-kib-mib-etc-like-du-ls1
 bytesToHumanReadable() {
     local i=${1:-0} d="" s=0 S=("Bytes" "KiB" "MiB" "GiB" "TiB" "PiB" "EiB" "YiB" "ZiB")
