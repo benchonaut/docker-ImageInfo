@@ -1,0 +1,54 @@
+<h2>ImageInfo</h2>
+<p>bash script to get a badge with human readable Docker image size , creation time  and number of layers.
+Should look like (or better than ) the broken ImageLayers.io.</p>
+<p>The badge is created with <a href="https://shields.io/">shields.io</a> by default but you can supply <code>SHIELDS_SERVER</code> .</p>
+<h2>Examples</h2>
+<p>|--|--|
+Using default tag: latest
+latest: Pulling from library/alpine
+f56be85fc22e: Pulling fs layer
+f56be85fc22e: Download complete
+f56be85fc22e: Pull complete
+Digest: sha256:124c7d2707904eea7431fffe91522a01e5a861a624ee31d03372cc1d138a3126
+Status: Downloaded newer image for alpine:latest
+docker.io/library/alpine:latest
+| library/alpine | <img alt=" _6.71_MiB/0_Layer_/created:_Wed_Mar_29_18:19:24_UTC_2023 " src="/badge/Image:library/alpine-_6.71_MiB/0_Layer_/created:_Wed_Mar_29_18:19:24_UTC_2023-blue.svg?style=flat-square" />  | 
+Using default tag: latest
+latest: Pulling from library/ubuntu
+Digest: sha256:67211c14fa74f070d27cc59d69a7fa9aeff8e28ea118ef3babc295a0428a6d21
+Status: Downloaded newer image for ubuntu:latest
+docker.io/library/ubuntu:latest
+| library/ubuntu | <img alt=" _74.20_MiB/0_Layer_/created:_Wed_Mar__8_04:44:27_UTC_2023 " src="/badge/Image:library/ubuntu-_74.20_MiB/0_Layer_/created:_Wed_Mar__8_04:44:27_UTC_2023-blue.svg?style=flat-square" />  | 
+Using default tag: latest
+latest: Pulling from library/nginx
+f1f26f570256: Pulling fs layer
+7f7f30930c6b: Pulling fs layer
+2836b727df80: Pulling fs layer
+e1eeb0f1c06b: Pulling fs layer
+86b2457cc2b0: Pulling fs layer
+9862f2ee2e8c: Pulling fs layer
+e1eeb0f1c06b: Waiting
+86b2457cc2b0: Waiting
+9862f2ee2e8c: Waiting
+2836b727df80: Verifying Checksum
+2836b727df80: Download complete
+7f7f30930c6b: Verifying Checksum
+7f7f30930c6b: Download complete
+e1eeb0f1c06b: Verifying Checksum
+e1eeb0f1c06b: Download complete
+f1f26f570256: Verifying Checksum
+f1f26f570256: Download complete
+9862f2ee2e8c: Verifying Checksum
+9862f2ee2e8c: Download complete
+86b2457cc2b0: Verifying Checksum
+86b2457cc2b0: Download complete
+f1f26f570256: Pull complete
+7f7f30930c6b: Pull complete
+2836b727df80: Pull complete
+e1eeb0f1c06b: Pull complete
+86b2457cc2b0: Pull complete
+9862f2ee2e8c: Pull complete
+Digest: sha256:2ab30d6ac53580a6db8b657abf0f68d75360ff5cc1670a85acb5bd85ba1b19c0
+Status: Downloaded newer image for nginx:latest
+docker.io/library/nginx:latest
+| library/nginx | <img alt=" _135.52_MiB/0_Layer_/created:_Tue_Mar_28_22:20:09_UTC_2023 " src="/badge/Image:library/nginx-_135.52_MiB/0_Layer_/created:_Tue_Mar_28_22:20:09_UTC_2023-blue.svg?style=flat-square" />  | </p>
