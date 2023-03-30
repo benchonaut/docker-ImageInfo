@@ -1,5 +1,6 @@
 #!/bin/bash
 
+[[ -z "SHIELDS_SERVER" ]] && SHIELDS_SERVER=
 # Converts bytes value to human-readable string [$1: bytes value] #https://unix.stackexchange.com/questions/44040/a-standard-tool-to-convert-a-byte-count-into-human-kib-mib-etc-like-du-ls1
 bytesToHumanReadable() {
     local i=${1:-0} d="" s=0 S=("Bytes" "KiB" "MiB" "GiB" "TiB" "PiB" "EiB" "YiB" "ZiB")
@@ -41,5 +42,5 @@ if [ "${#layers}" -ne "1" ]
 fi
 
 echo "$did_we_pull"|grep yes -q && docker rmi $image_name &>/dev/null
-echo '|' $image_name '| ![ '$info' ]('https://img.shields.io/badge/Image:$image_name-${info}-blue.svg?style=flat-square')  | '
-#echo https://img.shields.io/badge/Image:$image_name-${info}-blue.svg?style=flat-square
+echo '|' $image_name '| ![ '$info' ]('"$SHIELDS_SERVER"'/badge/Image:'$image_name-${info}'-blue.svg?style=flat-square)  | '
+#echo "$SHIELDS_SERVER"/badge/Image:$image_name-${info}-blue.svg?style=flat-square
