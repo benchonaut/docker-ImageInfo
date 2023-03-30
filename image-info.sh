@@ -10,7 +10,7 @@ echo -n $image_name|tr -cd '/'|wc -c|grep ^0$ && image_name=library/$image_name
 echo -n $image_name|tr -cd '/'|wc -c|grep ^1$ && image_name=docker.io/$image_name
 
 REGISTRY_ADDRESS=$(echo "$image_name"|cut -d"/" -f1)
-#echo "using reg $REGISTRY_ADDRESS" >&2
+echo "using reg $REGISTRY_ADDRESS FOR $image_name TAG $tag" >&2
 [[ -z "$USE_PROXY" ]] && REGURL="https://${REGISTRY_ADDRESS}"
 [[ -z "$USE_PROXY" ]] && REGURL="${USE_PROXY}/${REGISTRY_ADDRESS}"
 
